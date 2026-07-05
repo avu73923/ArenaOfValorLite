@@ -1,0 +1,184 @@
+:root{
+  --bg: #0b0d12;
+  --panel: #12141b;
+  --line: #22252f;
+  --ally: #4f8cff;
+  --ally-dim: #2a4a8c;
+  --enemy: #ff5c5c;
+  --enemy-dim: #8c2f2f;
+  --gold: #f2c14e;
+  --text: #e7e9ee;
+  --muted: #7d8290;
+}
+
+*{ box-sizing: border-box; }
+
+html, body{
+  margin:0; padding:0; height:100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+#game-wrap{
+  position: relative;
+  width: 960px;
+  max-width: 100vw;
+  margin: 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height: 100vh;
+}
+
+canvas#arena{
+  display:block;
+  background: var(--bg);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 960/540;
+}
+
+/* ---------- HUD ---------- */
+#hud{
+  position:absolute; inset:0;
+  pointer-events:none;
+  display:flex; flex-direction:column; justify-content:space-between;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+#hud-top{
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 14px 22px;
+  background: linear-gradient(to bottom, rgba(0,0,0,.55), transparent);
+}
+
+.tower-count{
+  font-size: 20px; font-weight:600; letter-spacing:.5px;
+  display:flex; align-items:center; gap:8px;
+}
+.tower-count .dot{
+  width:9px; height:9px; transform:rotate(45deg);
+  display:inline-block;
+}
+.tower-count.ally .dot{ background: var(--ally); }
+.tower-count.ally{ color: var(--ally); }
+.tower-count.enemy .dot{ background: var(--enemy); }
+.tower-count.enemy{ color: var(--enemy); }
+
+.timer{
+  font-size: 22px; font-weight:700; color: var(--gold); letter-spacing:2px;
+}
+
+#hud-bottom{
+  display:flex; align-items:flex-end; justify-content:space-between;
+  padding: 16px 22px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,.6), transparent);
+  gap: 24px;
+}
+
+#stat-bars{ flex:1; max-width: 360px; }
+.bar-row{ display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+.bar-label{ width:26px; font-weight:700; color:var(--muted); font-size:14px; }
+.bar{
+  position:relative;
+  flex:1; height:16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  overflow:hidden;
+}
+.bar .fill{
+  position:absolute; left:0; top:0; bottom:0; width:100%;
+  transition: width .15s linear;
+}
+.bar.hp .fill{ background: var(--ally); }
+.bar.mp .fill{ background: var(--gold); }
+.bar-text{
+  position:absolute; right:6px; top:50%; transform:translateY(-50%);
+  font-size:11px; color:#0b0d12; font-weight:700;
+}
+
+#skills{
+  display:flex; gap:10px;
+  pointer-events:none;
+}
+.skill{
+  position:relative;
+  width:56px; height:56px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  transform: rotate(45deg);
+  display:flex; align-items:center; justify-content:center;
+}
+.skill .key, .skill .name{
+  transform: rotate(-45deg);
+  text-align:center;
+}
+.skill .key{
+  position:absolute;
+  font-weight:700; font-size:15px; color: var(--gold);
+  top:8px;
+}
+.skill .name{
+  font-size:9px; color: var(--muted); font-weight:600;
+  width: 60px;
+}
+.cd-overlay{
+  position:absolute; inset:0;
+  background: rgba(0,0,0,.75);
+  height:0%;
+  transition: height .1s linear;
+}
+.skill.ready{ border-color: var(--gold); }
+
+/* ---------- Screens ---------- */
+.overlay-screen{
+  position:absolute; inset:0;
+  background: rgba(8,9,13,.92);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+  gap: 14px;
+  padding: 20px;
+}
+.overlay-screen.hidden{ display:none; }
+
+.overlay-screen h1{
+  font-family:'Rajdhani', sans-serif;
+  font-size: 44px;
+  font-weight:700;
+  letter-spacing: 4px;
+  margin: 0;
+  color: var(--text);
+}
+.overlay-screen h1 span{ color: var(--gold); }
+
+.overlay-screen p{
+  color: var(--muted);
+  max-width: 420px;
+  font-size: 15px;
+  margin: 0;
+}
+
+.controls-hint{
+  display:flex; flex-direction:column; gap:6px;
+  font-size: 14px; color: var(--text);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 12px 20px;
+  margin: 6px 0;
+}
+.controls-hint b{ color: var(--gold); }
+
+button{
+  font-family:'Rajdhani', sans-serif;
+  font-size: 18px; font-weight:700; letter-spacing:1px;
+  padding: 12px 34px;
+  background: var(--gold);
+  color: #14161d;
+  border: none;
+  cursor:pointer;
+  transition: transform .1s ease;
+}
+button:hover{ transform: translateY(-2px); }
+button:active{ transform: translateY(0); }
